@@ -1,0 +1,19 @@
+{
+  "name": "dailybread-backend",
+  "version": "1.0.0",
+  "description": "Backend for Daily Bread App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alansdpark/DailyBread-Backend.git"
+  },
+  "author": "Alan Park, Angela Kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alansdpark/DailyBread-Backend/issues"
+  },
+  "homepage": "https://github.com/alansdpark/DailyBread-Backend#readme"
+}
