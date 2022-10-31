@@ -28,19 +28,24 @@ app.get('/', (req, res) => {
 app.get('/recipes', (req, res) => {
     axios.request(options).then(function (response) {
         const resultsParsed = response.data.results.map(resultsObject => {
+            let instructions = [];
+            resultsObject.instructions.map(instructionsObject => {
+                instructions.push(instructionsObject.display_text);
+            });
+
+            let ingredients = [];
+            resultsObject.sections[0].components.map(ingredientsObject => {
+                ingredients.push(ingredientsObject.raw_text);
+            });
+
             return {
                 id: resultsObject.id,
                 name: resultsObject.name,
-                instructions: resultsObject.instructions,
-                ingredients: resultsObject.sections[0].components.map(ingredientsObject => {
-                    return {
-                        ingredient: ingredientsObject.raw_text
-                    }
-                })
+                instructions: instructions,
+                ingredients: ingredients
             }
         });
         res.json(resultsParsed);
-        console.log(response.data.results);
     }).catch(function (error) {
         console.error(error);
     });
