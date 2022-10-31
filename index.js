@@ -7,7 +7,7 @@ const port = 3000;
 const options = {
   method: 'GET',
   url: 'https://tasty.p.rapidapi.com/recipes/list',
-  params: {from: '0', size: '20', tags: 'under_30_minutes'},
+  params: {from: '0', size: '20', q: 'apple, flour'},
   headers: {
     'X-RapidAPI-Key': '0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453',
     'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
@@ -27,8 +27,21 @@ app.get('/', (req, res) => {
 
 app.get('/recipes', (req, res) => {
     axios.request(options).then(function (response) {
-        res.json(response.data.results)
-        console.log(response.data);
+        const resultsParsed = response.data.results.map(object => {
+            return {
+                id: object.id,
+                name: object.name,
+                instructions: object.instructions,
+                ingredients: object.sections[0].components.map(raw_text => {
+                    return {
+                        ingredient: raw_text.raw_text
+                    }
+                })
+            }
+        });
+
+        res.json(resultsParsed);
+        console.log(response.data.results);
     }).catch(function (error) {
         console.error(error);
     });
