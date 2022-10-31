@@ -27,19 +27,18 @@ app.get('/', (req, res) => {
 
 app.get('/recipes', (req, res) => {
     axios.request(options).then(function (response) {
-        const resultsParsed = response.data.results.map(object => {
+        const resultsParsed = response.data.results.map(resultsObject => {
             return {
-                id: object.id,
-                name: object.name,
-                instructions: object.instructions,
-                ingredients: object.sections[0].components.map(raw_text => {
+                id: resultsObject.id,
+                name: resultsObject.name,
+                instructions: resultsObject.instructions,
+                ingredients: resultsObject.sections[0].components.map(ingredientsObject => {
                     return {
-                        ingredient: raw_text.raw_text
+                        ingredient: ingredientsObject.raw_text
                     }
                 })
             }
         });
-
         res.json(resultsParsed);
         console.log(response.data.results);
     }).catch(function (error) {
@@ -50,5 +49,3 @@ app.get('/recipes', (req, res) => {
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 });
-
-
