@@ -3,7 +3,7 @@
 ## To run
 1. npm install each dependency in package.json
 
-    `npm install express`, `npm install pg`, etc.
+    `npm install express pg [...]`
 
 2. run `node index.js` in terminal to run server
 
