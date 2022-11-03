@@ -3,15 +3,13 @@ const User = require("../model/userModel");
 const Client = require("../postgres/Client");
 const SQL = require('sql-template-strings')
 
+//register
 router.post("/registeruser", async (req, res) => {
     try {
         //receive name, email, password from frontend
         console.log(req.body);
         const { name, email, password } = req.body;
-        const filter = [email];
-        console.log("filter: " + filter);
 
-        //const query = "SELECT * FROM users WHERE email = ?";
         const query = (SQL `SELECT email FROM users WHERE email = ${email}`)
 
         //check if user exists
@@ -32,14 +30,12 @@ router.post("/registeruser", async (req, res) => {
                 .send({ message: "An account with this email already exists." });
         }
             
-
-        const newUser = [name, email, password];
-
         const insert = (SQL `
             INSERT INTO users (name, email, password)
             VALUES (${name}, ${email}, ${password});
         `);
 
+        //adds user to db
         Client.query(insert, (err, res) => {
             if (!err) {
                 console.log("added user");
