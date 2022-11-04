@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require("axios");
+const Client = require("./postgres/Client");
+
 const app = express();
 const port = 3000;
 
@@ -54,3 +56,5 @@ app.get('/recipes', (req, res) => {
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 });
+
+app.use("/auth", require("./router/userRouter"));
