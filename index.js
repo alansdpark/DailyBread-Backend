@@ -47,11 +47,12 @@ app.get('/recipes', (req, res) => {
                 });
             }
             
-            let hasIngredients = false;
-            if (resultsObject.hasOwnProperty('sections')) {
-                hasIngredients = resultsObject.sections[0].hasOwnProperty('components');
-                if (hasIngredients) {
-                    resultsObject.sections[0].components.map(ingredientsObject => {
+            const hasIngredients = resultsObject.hasOwnProperty('sections');
+            if (hasIngredients) {
+                // resultsObject.sections[0].hasOwnProperty('components'); // leave in case something breaks.
+                const sectionsLength = Object.keys(resultsObject.sections).length;
+                for (let i = 0; i < sectionsLength; i++) {
+                    resultsObject.sections[i].components.map(ingredientsObject => {
                         ingredients.push(ingredientsObject.raw_text);
                     });
                 }
