@@ -1,37 +1,22 @@
 const { Client, Pool } = require('pg');
 const { RDS } = require('aws-sdk');
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+const hostname = process.env.AWS_RDS_HOST;
+const username = process.env.AWS_RDS_USER;
+const db = process.env.AWS_RDS_DB;
+const password = process.env.AWS_RDS_PASS;
 
 //connect to aws rds database
 const client = new Client({
-    host: "test2.c6bgfxahnjn0.us-east-1.rds.amazonaws.com",
-    user: "postgres",
+    host: hostname,
+    user: username,
     port: 5432,
-    password: "yoonkang",
-    database: "postgres"
+    password: password,
+    database: db
 });
 client.connect();
-
-/*const query = `
-INSERT INTO users (name, email, password)
-VALUES ('test', 'test@email.com', 'test1234');
-`;
-
-client.query(query, (err, res) => {
-    if (!err) {
-        console.log("added row");
-    }
-    else {
-        console.log(err.message);
-    }
-})*/
-
-client.query('Select * from users', (err, res) => {
-    if (!err) {
-        console.log(res.rows);
-    } else {
-        console.log(err.message);
-    }
-    client.end;
-})
 
 module.exports = client;
