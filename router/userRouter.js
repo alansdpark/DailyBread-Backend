@@ -10,9 +10,9 @@ router.post("/registeruser", async (req, res) => {
         //console.log(req.body);
         const { name, email, password } = req.body;
 
-        const query = (SQL `SELECT * FROM users WHERE email = ${email}`)
-
         //check if user exists
+        const query = (SQL `SELECT * FROM users WHERE email = ${email}`)
+        
         const existingUser = await Client.query(query); 
         /*Client.query(query, (err, res) => {
             if (!err) {

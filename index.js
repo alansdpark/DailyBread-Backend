@@ -79,3 +79,4 @@ app.listen(port, () => {
 });
 
 app.use("/auth", require("./router/userRouter"));
+app.use("/auth", require("./router/inventoryRouter"));
