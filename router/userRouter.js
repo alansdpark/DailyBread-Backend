@@ -52,7 +52,7 @@ router.post("/registeruser", async (req, res) => {
             
         }
         
-        res.status(200).send({message: "registered"});
+        res.status(200).send({message: "registered", user: existingUser.name, email: existingUser.email});
 
     } catch (err) {
         console.error(err);
@@ -103,7 +103,7 @@ router.post("/loginuser", async (req, res) => {
             return res.send({ message: "Wrong email or password." });
         }
 
-        res.status(200).send({message: "logged in"});
+        res.status(200).send({message: "logged in", user: existing.name, email: existing.email});
 
     } catch (err) {
         console.error(err);
