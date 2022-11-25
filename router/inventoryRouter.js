@@ -74,7 +74,7 @@ router.get("/getinventory", async (req, res) => {
         //get all items that belong to user
         const getIngredients = (SQL `SELECT category, item, quantity FROM inventory
             WHERE email = ${email}
-            ORDER BY category`);
+            ORDER BY category, item ASC`);
         //console.log("email: " + email)
         var inventory = {inventory: []};
         var categoryList = [];
@@ -172,6 +172,26 @@ router.post("/deleteingredient", async (req, res) => {
         res.status(500).send();
     }
     
+})
+
+//edit item in inventory
+router.post("/editingredient", async (req, res) => {
+    try {
+        const { item, newName, newCount, email } = req.body;
+
+        const edit = (SQL `UPDATE inventory 
+            SET item = ${newName}, quantity = ${newCount}
+            WHERE item = ${item} AND email = ${email}`)
+
+        //const result = 
+        await Client.query(edit);
+
+        res.status(200).send({message: "edited"});
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
 })
 
 module.exports = router;

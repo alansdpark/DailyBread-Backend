@@ -111,4 +111,37 @@ router.post("/loginuser", async (req, res) => {
     }
 });
 
+//change password
+router.post("/changepassword", async (req, res) => {
+    try {
+        const { email, password, newPass } = req.body;
+
+        const changePass = (SQL `UPDATE users
+            SET password = ${newPass}
+            WHERE email = ${email} AND password = ${password}`);
+
+        const user = await Client.query(changePass);
+        
+
+        /* if (typeof user.rows[0] !== 'undefined')
+        {
+            console.log("user: " + user.rows[0].email);
+        }
+        else {
+            return res.send({message: "Old password is incorrect."})
+        } */
+        if (user.rowCount == 0)
+        {
+            console.log("incorrect og password");
+            return res.send({message: "Old password is incorrect."})
+        } 
+
+        res.status(200).send({message: "password changed"})
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+});
+
 module.exports = router;
