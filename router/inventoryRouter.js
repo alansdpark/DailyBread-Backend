@@ -5,10 +5,10 @@ const SQL = require('sql-template-strings');
 //preliminary check to see if ingredient is already in inventory
 router.get("/getingredient", async (req, res) => {
     try {
-        const item = req.query.item;
+        const {item, email} = req.query;
 
         const check = (SQL `SELECT item FROM inventory
-            WHERE item = ${item}`);
+            WHERE item = ${item} AND email = ${email}`);
 
         const ingredient = await Client.query(check);
 
@@ -187,6 +187,71 @@ router.post("/editingredient", async (req, res) => {
         await Client.query(edit);
 
         res.status(200).send({message: "edited"});
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+});
+
+//preliminary check to see if category already exists in inventory
+router.get("/getcategory", async (req, res) => {
+    try {
+        const {category, email} = req.query;
+
+        const check = (SQL `SELECT item FROM inventory
+            WHERE category = ${category} AND email = ${email}
+            LIMIT 1`);
+
+        const categories = await Client.query(check);
+
+        //return error message if ingredient already exists
+        if (typeof categories.rows[0] !== 'undefined')
+        {
+            console.log("trying to add duplicate: " + JSON.stringify(categories.rows[0]));
+            return res.send({message: "true"});
+            
+        }
+
+        res.send({message: "false"});
+
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+})
+
+//add new category to inventory
+router.post("/addcategory", async (req, res) => {
+    try {
+        const { category, email } = req.body;
+
+        const addCat = (SQL `INSERT INTO inventory (category, item, quantity, email)
+            VALUES (${category}, '', '', ${email})
+        `)
+
+        await Client.query(addCat);
+
+        res.status(200).send({message: "added empty category."});
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+})
+
+//delete entired category
+router.post("/deletecategory", async (req, res) => {
+    try {
+        const { category, email } = req.body;
+
+        const remove = (SQL `DELETE FROM inventory
+            WHERE email = ${email} AND category = ${category}`);
+
+        await Client.query(remove);
+
+        res.status(200).send({message: "category removed"});
 
     } catch (err) {
         console.error(err);
