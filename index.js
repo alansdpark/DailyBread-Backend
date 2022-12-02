@@ -35,7 +35,7 @@ app.get('/recipes', (req, res) => {
         },
         headers: {
             'X-RapidAPI-Key': process.env.API_KEY,
-            'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
+            'X-RapidAPI-Host': process.env.API_HOST
         }
     };
 
