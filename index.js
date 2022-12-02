@@ -5,6 +5,9 @@ const Client = require("./postgres/Client");
 
 const app = express();
 const port = 3000;
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.use(bodyParser.json());
 app.use(
@@ -31,7 +34,7 @@ app.get('/recipes', (req, res) => {
             q: query
         },
         headers: {
-            'X-RapidAPI-Key': '0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453',
+            'X-RapidAPI-Key': process.env.API_KEY,
             'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
         }
     };
