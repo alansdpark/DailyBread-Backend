@@ -37,14 +37,20 @@ router.post("/addingredient", async (req, res) => {
 
         //add item to inventory if it doesn't exist already
         const add = (SQL `INSERT INTO inventory (category, item, quantity, email)
+            VALUES (${category}, ${item}, ${quantity}, ${email})`);
+            /*
            SELECT * FROM (SELECT ${category} AS category, ${item} AS item, ${quantity} AS quantity, ${email} AS email) AS temp
             WHERE NOT EXISTS (
                 SELECT item FROM inventory WHERE item = ${item}
-            ) RETURNING item`);
+            ) RETURNING item`);*/
 
         //const ingredient = 
-        await Client.query(add);
+        const ingredient = await Client.query(add);
 
+        if (typeof ingredient.rows[0] !== 'undefined')
+        {
+
+        }
         /* //return error message if ingredient already exists
         if (typeof ingredient.rows[0] == 'undefined')
         {
@@ -118,7 +124,7 @@ router.get("/getinventory", async (req, res) => {
                 {
                     //console.log("category in list: " + categoryList[j] + " current row category: " + category);
                     //console.log("item list: " + JSON.stringify(itemList));
-                    console.log("adding to inventory...");
+                    //console.log("adding to inventory...");
                     inventory.inventory.push({"category": categoryList[j], "items": itemList});
                     //console.log("checking inventory: " + JSON.stringify(inventory));
                     categoryList.push(category);

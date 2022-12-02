@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
 app.get('/recipes', (req, res) => {
     const query = req.query.q;
 
+    console.log("recipe search: " + query);
+
     const options = {
         method: 'GET',
         url: 'https://tasty.p.rapidapi.com/recipes/list',
