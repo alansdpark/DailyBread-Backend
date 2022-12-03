@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require("axios");
 const Client = require("./postgres/Client");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
 const port = 3000;
@@ -31,8 +34,8 @@ app.get('/recipes', (req, res) => {
             q: query
         },
         headers: {
-            'X-RapidAPI-Key': '0fabe6247amsh3cc35d831f1063ep17f222jsncb85460e2453',
-            'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
+            'X-RapidAPI-Key': process.env.API_KEY,
+            'X-RapidAPI-Host': process.env.API_HOST
         }
     };
 
